@@ -12,21 +12,21 @@ pipeline {
         stage('Build') {
             steps {
                 echo 'Building Spring Boot application'
-                sh 'mvn clean package'
+                bat 'mvn clean package'
             }
         }
 
         stage('Test') {
             steps {
                 echo 'Running tests'
-                sh 'mvn test'
+                bat 'mvn test'
             }
         }
 
         stage('Deploy') {
             steps {
                 echo 'Deploying Spring Boot application'
-                sh '''
+                bat '''
                     pkill -f app.jar || true
                     mkdir -p ~/springboot-deploy
                     cp target/*.jar ~/springboot-deploy/app.jar
