@@ -26,12 +26,14 @@ pipeline {
         stage('Deploy') {
             steps {
                 echo 'Deploying Spring Boot application'
-                bat '''
-                    pkill -f app.jar || true
-                    mkdir -p ~/springboot-deploy
-                    cp target/*.jar ~/springboot-deploy/app.jar
-                    nohup java -jar ~/springboot-deploy/app.jar > ~/springboot-deploy/app.log 2>&1 &
-                '''
+                 bat '''
+
+                    for /f "tokens=5" %%a in ('netstat -ano ^| findstr :8081') do (
+                        taskkill /PID %%a /F
+                    )
+                    cd target
+                    java -jar SpringbootEcommercePlatform-0.0.1-SNAPSHOT.jar
+                    '''
             }
         }
     }
